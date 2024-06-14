@@ -230,7 +230,7 @@
                 // 保存总搜索次数到 localStorage
                 localStorage.setItem('totalSearches', totalSearches.toString());
                 // 检查是否已经达到总搜索次数的要求
-                if (totalSearches >= 40) {
+                if (totalSearches >= 36) {
                     stopAutoSearch();
                     localStorage.removeItem('totalSearches');
                     window.location.href = 'http://www.bing.com';
