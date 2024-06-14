@@ -233,7 +233,7 @@
                 if (totalSearches >= 40) {
                     stopAutoSearch();
                     localStorage.removeItem('totalSearches');
-                    window.close();
+                    window.location.href = 'http://www.bing.com';
                     } else {
                             if (completedSearches % 4 === 0) {// 检查是否完成了4次搜索
                                 // 在完成每4次搜索后设置延迟，然后刷新页面
