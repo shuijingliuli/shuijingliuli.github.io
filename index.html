@@ -273,7 +273,7 @@
 
     function initializeCountdown() {
         const countdownElement = document.getElementById('countdown-timer');
-        let initialCountdown = Math.floor(Math.random() * 60) + 60; // 随机生成 60 到 120 秒的倒计时
+        let initialCountdown = Math.floor(Math.random() * 120) + 60; // 随机生成 60 到 120 秒的倒计时
         countdownElement.textContent = initialCountdown;
 
         countdownWorker = new Worker(URL.createObjectURL(new Blob([`
