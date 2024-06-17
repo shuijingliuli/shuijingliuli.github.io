@@ -52,6 +52,10 @@
             background-color: #F05626;
             color: white;
         }
+        #deleteDataButton {
+            background-color: #778899;
+            color: white;
+        }
         #search-history {
             margin-top: 20px;
         }
@@ -89,6 +93,7 @@
     </div>
     <button id="start-button">开始</button>
     <button id="stop-button">停止</button>
+    <button id="deleteDataButton">清空计数</button>
     <h2>搜索历史</h2>
     <div id="search-history"></div>
 </main>
@@ -313,6 +318,12 @@
             }
         };
     }
+
+document.getElementById("deleteDataButton").addEventListener("click", function() {
+    localStorage.removeItem("totalSearches");
+    document.getElementById('total-searches').textContent = '0';
+    document.getElementById('completed-searches').textContent = '0';
+});
 
     document.getElementById('start-button').addEventListener('click', startAutoSearch);
     document.getElementById('stop-button').addEventListener('click', stopAutoSearch);
