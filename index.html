@@ -11,37 +11,52 @@
       <path d='M1020 536.149726H536.149726V1020H1020z' fill='%23FFC20E' p-id='7090'></path>
     </svg>">
     <title>随机一言PC</title>
+    <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+        try {
+            const wakeLock = await navigator.wakeLock.request('screen');
+            console.log('Screen Wake Lock is active');
+    
+            // 在页面卸载时释放锁定
+            window.addEventListener('beforeunload', () => {
+                wakeLock.release();
+                console.log('Screen Wake Lock released');
+            });
+        } catch (err) {
+            console.error('Wake Lock is not supported or not granted:', err);
+        }
+    });
+    </script>
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
-            background-color: #f4f4f9;
-            color: #444;
+            background-color: #121212;
+            color: #e0e0e0;
             margin: 0;
             padding: 0;
         }
         main {
-            background-color: white;
+            background-color: #1e1e1e;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             border-radius: 8px;
         }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #333;
+        h1, h2 {
+            color: #ffffff;
         }
         .search-info {
             margin-bottom: 20px;
             padding: 15px;
-            border: 1px solid #ddd;
+            border: 1px solid #333;
             border-radius: 8px;
-            background-color: #fafafa;
+            background-color: #242424;
         }
         .search-info div {
             margin-bottom: 10px;
         }
         .search-info div span {
             font-weight: bold;
+            color: #ffffff;
         }
         button {
             padding: 10px 20px;
@@ -68,14 +83,15 @@
         }
         .search-history-item {
             padding: 15px;
-            border: 1px solid #ddd;
+            border: 1px solid #333;
             border-radius: 8px;
-            background-color: #fafafa;
+            background-color: #242424;
             margin-bottom: 10px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
         }
         .search-history-item p {
             margin: 0;
+            color: #e0e0e0;
         }
         .search-history-item iframe {
             width: 100%;
