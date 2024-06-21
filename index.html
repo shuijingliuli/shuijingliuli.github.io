@@ -29,7 +29,7 @@
     </script>
     <style>
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
+            font-family:'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
             background-color: #121212;
             color: #e0e0e0;
             margin: 0;
@@ -40,6 +40,9 @@
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             border-radius: 8px;
+            max-width: 1250px; /* 在电脑上增加主体内容的最大宽度 */
+            margin: 0 auto;
+            overflow: hidden; /* 防止内容溢出 */
         }
         h1, h2 {
             color: #ffffff;
@@ -58,25 +61,33 @@
             font-weight: bold;
             color: #ffffff;
         }
+        .button-container {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
         button {
+            font-weight: bold; /* 字体加粗 */
             padding: 10px 20px;
-            margin-right: 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
+            color: #ffffff; /* 文本颜色设为白色 */
+            transition: transform 0.2s ease, filter 0.3s ease; /* 添加 transform 和 filter 过渡效果 */
+            filter: brightness(80%);
         }
         #start-button {
-            background-color: #FFA500;
-            color: white;
+            background-color: #7FBA00; /* 绿色 */
         }
         #stop-button {
-            background-color: #F05626;
-            color: white;
+            background-color: #FF3B30; /* 橙红 */
+        }
+        #exception-button {
+            background-color: #FFA500; /* 黄色 */
         }
         #deleteDataButton {
-            background-color: #778899;
-            color: white;
+            background-color: #00A1F1; /* 蓝色 */
         }
         #search-history {
             margin-top: 20px;
@@ -104,6 +115,24 @@
             color: #FFA500;
             margin-top: 10px;
         }
+
+        /* 媒体查询：在小屏幕上，按钮显示更小 */
+        @media screen and (max-width: 600px) {
+            .button-container {
+                flex-direction: column;
+            }
+            button {
+                padding: 8px 16px;
+                font-size: 14px;
+                margin-bottom: 10px;
+            }
+        }
+
+        /* 鼠标悬停效果 */
+        button:hover {
+            transform: scale(1.05); /* 按钮放大 5% */
+            filter: brightness(110%); /* 亮度增加 10% */
+        }
     </style>
 </head>
 <body>
@@ -115,9 +144,9 @@
         <div>本轮已完成搜索：<span id="completed-searches">0</span> 次</div>
         <div>总计已完成搜索：<span id="total-searches">0</span> 次</div>
     </div>
-    <button id="start-button" title="点击开始自动搜索">开始</button>
-    <button id="stop-button" title="点击停止自动搜索">停止</button>
-    <button id="exception-button" title="点击切换到异常模式">异常</button>
+    <button id="start-button" title="点击开始自动搜索">开始搜索</button>
+    <button id="stop-button" title="点击停止自动搜索">停止搜索</button>
+    <button id="exception-button" title="点击切换到异常模式">异常模式</button>
     <button id="deleteDataButton" title="点击清空计数数据">清空计数</button>
     <h2>搜索历史</h2>
     <div id="search-history"></div>
