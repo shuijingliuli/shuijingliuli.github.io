@@ -76,6 +76,8 @@
             color: #ffffff; /* 文本颜色设为白色 */
             transition: transform 0.2s ease, filter 0.3s ease; /* 添加 transform 和 filter 过渡效果 */
             filter: brightness(80%);
+            margin-right:6px;
+            margin-left:6px;
         }
         #start-button {
             background-color: #7FBA00; /* 绿色 */
@@ -389,14 +391,14 @@
         if (!isException) {
             isException = true;
             localStorage.setItem('isException', 'true');
-            this.textContent = '恢复';
+            this.textContent = '恢复正常';
             this.title = '点击切换到正常模式';
             countdownMin = 900;
             countdownMax = 960;
         } else {
             isException = false;
             localStorage.setItem('isException', 'false');
-            this.textContent = '异常';
+            this.textContent = '异常模式';
             this.title = '点击切换到异常模式'; 
             countdownMin = 60;
             countdownMax = 120;
@@ -409,7 +411,7 @@
     // 初始化异常按钮状态
     if (isException) {
         const exceptionButton = document.getElementById('exception-button');
-        exceptionButton.textContent = '恢复';
+        exceptionButton.textContent = '恢复正常';
         exceptionButton.title = '点击切换到正常模式'; // 初始化提示文本
         countdownMin = 900;
         countdownMax = 960;
