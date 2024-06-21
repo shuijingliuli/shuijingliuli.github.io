@@ -10,7 +10,7 @@
       <path d='M485.84636 536.149726H1.996086V1020h483.850274z' fill='%2300AEEF' p-id='7089'></path>
       <path d='M1020 536.149726H536.149726V1020H1020z' fill='%23FFC20E' p-id='7090'></path>
     </svg>">
-    <title>随机一言PC</title>
+    <title>随机一言</title>
     <script>
     document.addEventListener('DOMContentLoaded', async () => {
         try {
@@ -109,40 +109,22 @@
 <body>
 <main>
     <div class="search-info">
+        <div>当前设备：<span id="device-type">检测中...</span></div>
         <div>当前搜索词：<span id="current-search-word">等待倒计时结束...</span></div>
         <div>启动自动搜索中：<span id="countdown-timer">加载中...</span></div>
         <div>本轮已完成搜索：<span id="completed-searches">0</span> 次</div>
         <div>总计已完成搜索：<span id="total-searches">0</span> 次</div>
     </div>
-    <button id="start-button">开始</button>
-    <button id="stop-button">停止</button>
-    <button id="deleteDataButton">清空计数</button>
+    <button id="start-button" title="点击开始自动搜索">开始</button>
+    <button id="stop-button" title="点击停止自动搜索">停止</button>
+    <button id="exception-button" title="点击切换到异常模式">异常</button>
+    <button id="deleteDataButton" title="点击清空计数数据">清空计数</button>
     <h2>搜索历史</h2>
     <div id="search-history"></div>
 </main>
 
 <script>
-    const defaultSearchWords = [
-    "盛年不重来，一日难再晨", "千里之行，始于足下", "少年易学老难成，一寸光阴不可轻", 
-    "敏而好学，不耻下问", "海内存知己，天涯若比邻", "三人行，必有我师焉", 
-    "莫愁前路无知己，天下谁人不识君", "人生贵相知，何用金与钱", "天生我材必有用", 
-    "海纳百川有容乃大；壁立千仞无欲则刚", "穷则独善其身，达则兼济天下", 
-    "读书破万卷，下笔如有神", "学而不思则罔，思而不学则殆", 
-    "一年之计在于春，一日之计在于晨", "莫等闲，白了少年头，空悲切", 
-    "少壮不努力，老大徒伤悲", "一寸光阴一寸金，寸金难买寸光阴", 
-    "近朱者赤，近墨者黑", "吾生也有涯，而知也无涯", 
-    "纸上得来终觉浅，绝知此事要躬行", "学无止境", "己所不欲，勿施于人", 
-    "天将降大任于斯人也", "鞠躬尽瘁，死而后已", "书到用时方恨少", 
-    "天下兴亡，匹夫有责", "人无远虑，必有近忧", "为中华之崛起而读书", 
-    "一日无书，百事荒废", "岂能尽如人意，但求无愧我心", 
-    "人生自古谁无死，留取丹心照汗青", "吾生也有涯，而知也无涯", 
-    "生于忧患，死于安乐", "言必信，行必果", 
-    "读书破万卷，下笔如有神", "夫君子之行，静以修身，俭以养德", 
-    "老骥伏枥，志在千里", "一日不读书，胸臆无佳想", 
-    "王侯将相宁有种乎", "淡泊以明志。宁静而致远", 
-    "卧龙跃马终黄土"
-];
-
+    const defaultSearchWords = ["盛年不重来，一日难再晨"];
     let countdownIntervalId;
     let countdownTimeoutId;
     let nextSearchWord = '';
@@ -151,6 +133,10 @@
     let isSearching = false; // 标记搜索是否正在进行中
     let completedSearches = 0; // 记录已完成的搜索次数
     let totalSearches = localStorage.getItem('totalSearches') ? parseInt(localStorage.getItem('totalSearches')) : 0; // 初始化总搜索次数
+    let isException = localStorage.getItem('isException') === 'true'; // 初始化异常状态
+    let maxStops = 36; // 默认最大停止次数
+    let countdownMin = 60; // 默认最小倒计时
+    let countdownMax = 120; // 默认最大倒计时
 
     const apis = [
         'https://v1.hitokoto.cn/',
@@ -160,6 +146,19 @@
 
     // 页面加载时显示已完成的总搜索次数
     document.getElementById('total-searches').textContent = totalSearches;
+
+    // 判断设备类型
+    function detectDevice() {
+        const userAgent = navigator.userAgent.toLowerCase();
+        const isMobile = /iphone|ipad|ipod|android/.test(userAgent);
+        const deviceTypeElement = document.getElementById('device-type');
+        if (isMobile) {
+            deviceTypeElement.textContent = '移动设备';
+            maxStops = 24;
+        } else {
+            deviceTypeElement.textContent = '电脑设备';
+        }
+    }
 
     async function fetchSearchWords() {
         const apiUrl = apis[apiIndex];
@@ -258,7 +257,7 @@
                 // 保存总搜索次数到 localStorage
                 localStorage.setItem('totalSearches', totalSearches.toString());
                 // 检查是否已经达到总搜索次数的要求
-                if (totalSearches >= 36) {
+                if (totalSearches >= 24) {
                     stopAutoSearch();
                     localStorage.removeItem('totalSearches');
                     setTimeout(function(){
@@ -296,6 +295,7 @@
     // 页面加载完成后开始初始化
     document.addEventListener('DOMContentLoaded', () => {
         initializeCountdown(); // 初始化倒计时
+        detectDevice(); // 检测设备类型
     });
 
     // 添加一个全局变量来存储初始倒计时的计时器 ID
@@ -303,7 +303,7 @@
 
     function initializeCountdown() {
         const countdownElement = document.getElementById('countdown-timer');
-        let initialCountdown = Math.floor(Math.random() * 120) + 60; // 随机生成 60 到 120 秒的倒计时
+        let initialCountdown = Math.floor(Math.random() * (countdownMax - countdownMin + 1)) + countdownMin; // 初始化倒计时为900-960秒
         countdownElement.textContent = initialCountdown;
 
         countdownWorker = new Worker(URL.createObjectURL(new Blob([`
@@ -342,17 +342,50 @@
         };
     }
 
-document.getElementById("deleteDataButton").addEventListener("click", function() {
-    localStorage.removeItem("totalSearches");
-    document.getElementById('total-searches').textContent = '0';
-    document.getElementById('completed-searches').textContent = '0';
-    setTimeout(() => {
-         window.location.reload();
-   }, 2000);
-});
+    document.getElementById("deleteDataButton").addEventListener("click", function() {
+        localStorage.removeItem("totalSearches");
+        localStorage.removeItem("isException");
+        document.getElementById('total-searches').textContent = '0';
+        document.getElementById('completed-searches').textContent = '0';
+        setTimeout(() => {
+            window.location.reload();
+        }, 2000);
+    });
 
     document.getElementById('start-button').addEventListener('click', startAutoSearch);
     document.getElementById('stop-button').addEventListener('click', stopAutoSearch);
+
+    // 异常按钮逻辑
+    document.getElementById('exception-button').addEventListener('click', function() {
+        if (!isException) {
+            isException = true;
+            localStorage.setItem('isException', 'true');
+            this.textContent = '恢复';
+            this.title = '点击切换到正常模式';
+            countdownMin = 900;
+            countdownMax = 960;
+        } else {
+            isException = false;
+            localStorage.setItem('isException', 'false');
+            this.textContent = '异常';
+            this.title = '点击切换到异常模式'; 
+            countdownMin = 60;
+            countdownMax = 120;
+        }
+        setTimeout(() => {
+            window.location.reload();
+        }, 1000); // 1秒后刷新页面
+    });
+
+    // 初始化异常按钮状态
+    if (isException) {
+        const exceptionButton = document.getElementById('exception-button');
+        exceptionButton.textContent = '恢复';
+        exceptionButton.title = '点击切换到正常模式'; // 初始化提示文本
+        countdownMin = 900;
+        countdownMax = 960;
+    }
+
 </script>
 </body>
 </html>
