@@ -40,7 +40,7 @@
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
             border-radius: 8px;
-            max-width: 1250px; /* 在电脑上增加主体内容的最大宽度 */
+            max-width: 1100px; /* 在电脑上增加主体内容的最大宽度 */
             margin: 0 auto;
             overflow: hidden; /* 防止内容溢出 */
         }
@@ -62,22 +62,27 @@
             color: #ffffff;
         }
         .button-container {
-            display: flex;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
             gap: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
+            width: 160px; /* 调整整体按钮容器的宽度 */
         }
         button {
             font-weight: bold; /* 字体加粗 */
-            padding: 10px 20px;
+            padding: 20px;
             border: none;
-            border-radius: 5px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 16px;
             color: #ffffff; /* 文本颜色设为白色 */
             transition: transform 0.2s ease, filter 0.3s ease; /* 添加 transform 和 filter 过渡效果 */
             filter: brightness(80%);
-            margin-right:6px;
-            margin-left:6px;
+            margin: 0;
+            width: 75px; /* 使按钮宽度和高度一致 */
+            height: 75px; /* 使按钮宽度和高度一致 */
+            box-sizing: border-box; /* 确保边框和内边距不会影响尺寸 */
+            filter: brightness(80%);
         }
         #start-button {
             background-color: #7FBA00; /* 绿色 */
@@ -118,22 +123,10 @@
             margin-top: 10px;
         }
 
-        /* 媒体查询：在小屏幕上，按钮显示更小 */
-        @media screen and (max-width: 600px) {
-            .button-container {
-                flex-direction: column;
-            }
-            button {
-                padding: 8px 16px;
-                font-size: 14px;
-                margin-bottom: 10px;
-            }
-        }
-
         /* 鼠标悬停效果 */
         button:hover {
-            transform: scale(1.05); /* 按钮放大 5% */
-            filter: brightness(110%); /* 亮度增加 10% */
+            transform: scale(1.025); /* 按钮放大 2.5% */
+            filter: brightness(100%); /* 亮度增加 20% */
         }
     </style>
 </head>
