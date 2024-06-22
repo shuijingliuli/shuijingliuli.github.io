@@ -82,7 +82,6 @@
             width: 75px; /* 使按钮宽度和高度一致 */
             height: 75px; /* 使按钮宽度和高度一致 */
             box-sizing: border-box; /* 确保边框和内边距不会影响尺寸 */
-            filter: brightness(80%);
         }
         #start-button {
             background-color: #7FBA00; /* 绿色 */
@@ -139,16 +138,17 @@
         <div>本轮已完成搜索：<span id="completed-searches">0</span> 次</div>
         <div>总计已完成搜索：<span id="total-searches">0</span> 次</div>
     </div>
-    <button id="start-button" title="点击开始自动搜索">开始搜索</button>
-    <button id="stop-button" title="点击停止自动搜索">停止搜索</button>
-    <button id="exception-button" title="点击切换到异常模式">异常模式</button>
-    <button id="deleteDataButton" title="点击清空计数数据">清空计数</button>
+    <div class="button-container">
+        <button id="start-button" title="点击开始自动搜索">开始搜索</button>
+        <button id="stop-button" title="点击停止自动搜索">停止搜索</button>
+        <button id="exception-button" title="点击切换到异常模式">异常模式</button>
+        <button id="deleteDataButton" title="点击清空计数数据">清空计数</button>
+    </div>
     <h2>搜索历史</h2>
     <div id="search-history"></div>
 </main>
-
 <script>
-    const defaultSearchWords = ["盛年不重来，一日难再晨"];
+    const defaultSearchWords = ["盛年不重来，一日难再晨", "千里之行，始于足下", "少年易学老难成，一寸光阴不可轻", "敏而好学，不耻下问", "海内存知已，天涯若比邻","三人行，必有我师焉","莫愁前路无知已，天下谁人不识君", "人生贵相知，何用金与钱", "天生我材必有用", "海纳百川有容乃大；壁立千仞无欲则刚", "穷则独善其身，达则兼济天下", "读书破万卷，下笔如有神","学而不思则罔，思而不学则殆", "一年之计在于春，一日之计在于晨", "莫等闲，白了少年头，空悲切", "少壮不努力，老大徒伤悲", "一寸光阴一寸金，寸金难买寸光阴","近朱者赤，近墨者黑","吾生也有涯，而知也无涯", "纸上得来终觉浅，绝知此事要躬行", "学无止境", "己所不欲，勿施于人", "天将降大任于斯人也", "鞠躬尽瘁，死而后已", "书到用时方恨少","天下兴亡，匹夫有责","人无远虑，必有近忧","为中华之崛起而读书","一日无书，百事荒废","岂能尽如人意，但求无愧我心","人生自古谁无死，留取丹心照汗青","吾生也有涯，而知也无涯","生于忧患，死于安乐","言必信，行必果","读书破万卷，下笔如有神","夫君子之行，静以修身，俭以养德","老骥伏枥，志在千里","一日不读书，胸臆无佳想","王侯将相宁有种乎","淡泊以明志。宁静而致远,","卧龙跃马终黄土"];
     let countdownIntervalId;
     let countdownTimeoutId;
     let nextSearchWord = '';
@@ -158,7 +158,7 @@
     let completedSearches = 0; // 记录已完成的搜索次数
     let totalSearches = localStorage.getItem('totalSearches') ? parseInt(localStorage.getItem('totalSearches')) : 0; // 初始化总搜索次数
     let isException = localStorage.getItem('isException') === 'true'; // 初始化异常状态
-    let maxStops = 36; // 默认最大停止次数
+    let maxStops;
     let countdownMin = 60; // 默认最小倒计时
     let countdownMax = 120; // 默认最大倒计时
 
@@ -178,9 +178,10 @@
         const deviceTypeElement = document.getElementById('device-type');
         if (isMobile) {
             deviceTypeElement.textContent = '移动设备';
-            maxStops = 24;
+            localStorage.setItem('maxStops', '24');
         } else {
             deviceTypeElement.textContent = '电脑设备';
+            localStorage.setItem('maxStops', '36');
         }
     }
 
@@ -281,7 +282,7 @@
                 // 保存总搜索次数到 localStorage
                 localStorage.setItem('totalSearches', totalSearches.toString());
                 // 检查是否已经达到总搜索次数的要求
-                if (totalSearches >= 24) {
+                if (totalSearches >= localStorage.getItem('maxStops')) {
                     stopAutoSearch();
                     localStorage.removeItem('totalSearches');
                     setTimeout(function(){
@@ -409,7 +410,6 @@
         countdownMin = 900;
         countdownMax = 960;
     }
-
 </script>
 </body>
 </html>
