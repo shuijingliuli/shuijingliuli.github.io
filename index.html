@@ -161,6 +161,7 @@
     let maxStops;
     let countdownMin = 60; // 默认最小倒计时
     let countdownMax = 120; // 默认最大倒计时
+    let useCustomUrls = true; // 用于标记是否使用 urls.json 中的 URL，默认使用
 
     const apis = [
         'https://v1.hitokoto.cn/',
@@ -190,6 +191,7 @@
         if (isMobile) {
             deviceTypeElement.textContent = '移动设备';
             localStorage.setItem('maxStops', '28');
+            useCustomUrls = false; // 移动设备不使用 urls.json 中的 URL
         } else {
             deviceTypeElement.textContent = '电脑设备';
             localStorage.setItem('maxStops', '36');
@@ -239,7 +241,7 @@
         const randomCvid = generateRandomString(32);
         let searchUrl;
 
-        if (urls.length > 0 && urlIndex < urls.length) {
+        if (useCustomUrls && urls.length > 0 && urlIndex < urls.length) {
             searchUrl = urls[urlIndex];
             urlIndex++;
             localStorage.setItem('urlIndex', urlIndex.toString()); // 更新urlIndex到localStorage
