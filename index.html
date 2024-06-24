@@ -161,7 +161,6 @@
     let maxStops;
     let countdownMin = 60; // 默认最小倒计时
     let countdownMax = 120; // 默认最大倒计时
-    let useCustomUrls = true; // 用于标记是否使用 urls.json 中的 URL，默认使用
 
     const apis = [
         'https://v1.hitokoto.cn/',
@@ -190,8 +189,7 @@
         const deviceTypeElement = document.getElementById('device-type');
         if (isMobile) {
             deviceTypeElement.textContent = '移动设备';
-            localStorage.setItem('maxStops', '28');
-            useCustomUrls = false; // 移动设备不使用 urls.json 中的 URL
+            localStorage.setItem('maxStops', '24');
         } else {
             deviceTypeElement.textContent = '电脑设备';
             localStorage.setItem('maxStops', '36');
@@ -241,11 +239,10 @@
         const randomCvid = generateRandomString(32);
         let searchUrl;
 
-        if (useCustomUrls && urls.length > 0 && urlIndex < urls.length) {
+        if (urls.length > 0 && urlIndex < urls.length) {
             searchUrl = urls[urlIndex];
             urlIndex++;
             localStorage.setItem('urlIndex', urlIndex.toString()); // 更新urlIndex到localStorage
-            window.open(searchUrl, '_blank');
         } else {
             if (searchToggle) {
                 searchUrl = `https://www.cn.bing.com/search?q=${encodeURIComponent(word)}&form=${randomString}&cvid=${randomCvid}`;
@@ -309,7 +306,6 @@
                 if (totalSearches >= localStorage.getItem('maxStops')) {
                     stopAutoSearch();
                     localStorage.removeItem('totalSearches');
-                    localStorage.removeItem('urlIndex');
                     setTimeout(function(){
                         window.location.href = 'http://www.bing.com';
                     }, 6000);
