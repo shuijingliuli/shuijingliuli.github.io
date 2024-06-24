@@ -306,6 +306,7 @@
                 if (totalSearches >= localStorage.getItem('maxStops')) {
                     stopAutoSearch();
                     localStorage.removeItem('totalSearches');
+                    localStorage.removeItem('urlIndex');
                     setTimeout(function(){
                         window.location.href = 'http://www.bing.com';
                     }, 6000);
