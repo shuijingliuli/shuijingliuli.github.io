@@ -168,17 +168,6 @@
         'https://api.xygeng.cn/openapi/one'
     ];
 
-    let urls = [];
-    let urlIndex = localStorage.getItem('urlIndex') ? parseInt(localStorage.getItem('urlIndex')) : 0; // 从localStorage获取URL索引
-
-    fetch('urls.json')
-        .then(response => response.json())
-        .then(data => {
-            urls = data.urls;
-        })
-        .catch(error => {
-            console.error('Error fetching URLs:', error);
-        });
     // 页面加载时显示已完成的总搜索次数
     document.getElementById('total-searches').textContent = totalSearches;
 
@@ -239,18 +228,13 @@
         const randomCvid = generateRandomString(32);
         let searchUrl;
 
-        if (urls.length > 0 && urlIndex < urls.length) {
-            searchUrl = urls[urlIndex];
-            urlIndex++;
-            localStorage.setItem('urlIndex', urlIndex.toString()); // 更新urlIndex到localStorage
+        if (searchToggle) {
+            searchUrl = `https://www.cn.bing.com/search?q=${encodeURIComponent(word)}&form=${randomString}&cvid=${randomCvid}`;
         } else {
-            if (searchToggle) {
-                searchUrl = `https://www.cn.bing.com/search?q=${encodeURIComponent(word)}&form=${randomString}&cvid=${randomCvid}`;
-            } else {
-                searchUrl = `https://www.cn.bing.com/search?q=${encodeURIComponent(word)}&cvid=${randomCvid}&FORM=${randomString}`;
-            }
-            searchToggle = !searchToggle; // 切换 URL 格式以备下一次搜索
+            searchUrl = `https://www.cn.bing.com/search?q=${encodeURIComponent(word)}&cvid=${randomCvid}&FORM=${randomString}`;
         }
+
+        searchToggle = !searchToggle; // 切换 URL 格式以备下一次搜索
         addSearchHistory(word, searchUrl);
     }
 
@@ -273,13 +257,8 @@
             let countdown = Math.ceil(delay / 1000);
             const countdownElement = document.getElementById('countdown-timer');
 
-            if (urls.length > 0 && urlIndex < urls.length) {
-                nextSearchWord = ''; // urls.json 文件中使用的URL不需要搜索词
-                displaySearchWord('正在完成今日任务');
-            } else {
-                nextSearchWord = await fetchSearchWords();
-                displaySearchWord(nextSearchWord);
-            }
+            nextSearchWord = await fetchSearchWords();
+            displaySearchWord(nextSearchWord);
             countdownElement.textContent = countdown;
 
             countdownIntervalId = setInterval(() => {
@@ -307,17 +286,17 @@
                     stopAutoSearch();
                     localStorage.removeItem('totalSearches');
                     setTimeout(function(){
-                        window.location.href = 'http://www.bing.com';
-                    }, 6000);
-                } else {
-                    if (completedSearches % 4 === 0) {// 检查是否完成了4次搜索
-                        // 在完成每4次搜索后设置延迟，然后刷新页面
-                        setTimeout(() => {
-                            window.location.reload();
-                        }, 8000); // 设置适当的延迟时间，这里示例为 8000 毫秒（8秒）
+                                          window.location.href = 'http://www.bing.com';
+                                         }, 6000); 
                     } else {
-                        startCountdown(); // 继续搜索
-                    }
+                            if (completedSearches % 4 === 0) {// 检查是否完成了4次搜索
+                                // 在完成每4次搜索后设置延迟，然后刷新页面
+                                setTimeout(() => {
+                                    window.location.reload();
+                                }, 8000); // 设置适当的延迟时间，这里示例为 8000 毫秒（8秒）
+                            } else {
+                                    startCountdown(); // 继续搜索 
+                                }
                 }
             }, delay);
         }
@@ -391,7 +370,6 @@
     document.getElementById("deleteDataButton").addEventListener("click", function() {
         localStorage.removeItem("totalSearches");
         localStorage.removeItem("isException");
-        localStorage.removeItem('urlIndex');
         document.getElementById('total-searches').textContent = '0';
         document.getElementById('completed-searches').textContent = '0';
         setTimeout(() => {
@@ -415,7 +393,7 @@
             isException = false;
             localStorage.setItem('isException', 'false');
             this.textContent = '异常模式';
-            this.title = '点击切换到异常模式';
+            this.title = '点击切换到异常模式'; 
             countdownMin = 60;
             countdownMax = 120;
         }
