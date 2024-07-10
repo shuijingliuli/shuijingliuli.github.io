@@ -1,4 +1,4 @@
-#### 微软 Microsoft reward 搜索 积分 自动 获取，登录微软账号后，只需要每天[打开网址](https://shuijingliuli.github.io)放置10分钟左右即可
+#### 微软 Microsoft reward 搜索 积分 自动 获取，登录微软账号后，只需要每天[打开网址](https://shuijingliuli.github.io)放置10分钟左右即可，兑换网址点击[这里](https://rewards.bing.com/redeem/?form=edgepredeem)
 #### #[微软积分](https://shuijingliuli.github.io)
 #### #[Microsoft Rewards](https://shuijingliuli.github.io)
 #### #[必应积分](https://shuijingliuli.github.io)
