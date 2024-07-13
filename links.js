@@ -83,8 +83,8 @@ document.addEventListener("DOMContentLoaded", function () {
         <a href="https://shuijingliuli.github.io" class="bookmark" target="_blank" id="bookmark3">
             <span class="bookmark-label">微软薅羊毛</span>
         </a>
-        <a href="https://couwhoupesho.net/4/7705695" class="bookmark" target="_blank" id="bookmark4">
-            <span class="bookmark-label">正在开发中</span>
+        <a href="https://sanfriy.github.io" class="bookmark" target="_blank" id="bookmark4">
+            <span class="bookmark-label">清晨到星辰</span>
         </a>
         <a href="https://couwhoupesho.net/4/7705695" class="bookmark" target="_blank" id="bookmark5">
             <span class="bookmark-label">靓仔点广告</span>
