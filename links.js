@@ -93,3 +93,12 @@ document.addEventListener("DOMContentLoaded", function () {
     `;
     document.body.insertAdjacentHTML('beforeend', linksHTML);
 });
+(function() {
+    var h = document.documentElement;
+    var u = navigator.language || navigator.userLanguage;
+    if (u.startsWith('zh')) {
+      h.setAttribute('lang', 'zh');
+    } else {
+      h.setAttribute('lang', 'en');
+    }
+})();
