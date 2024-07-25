@@ -9,8 +9,8 @@
     let totalSearches = localStorage.getItem('totalSearches') ? parseInt(localStorage.getItem('totalSearches')) : 0; // 初始化总搜索次数
     let isException = localStorage.getItem('isException') === 'true'; // 初始化异常状态
     let maxStops;
-    let countdownMin = 60; // 默认最小倒计时
-    let countdownMax = 120; // 默认最大倒计时
+    let countdownMin = 40; // 默认最小倒计时
+    let countdownMax = 70; // 默认最大倒计时
 
     const apis = [
         'https://v1.hitokoto.cn/',
